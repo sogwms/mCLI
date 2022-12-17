@@ -42,6 +42,11 @@ static void *find_command(void *p, const char *name)
 static int get_optional_commands(void *p, stream_t stream)
 {
     // TODO
+
+    // in case of warnning
+    p = p;
+    stream = stream;
+
     if (p == NULL)
         return -1;
     return 0;
@@ -61,10 +66,13 @@ int trie_container_init(trie_container_t *ins)
 int trie_container_deinit(itf_container_t *itf)
 {
     // TODO
+    // in case of warnning
+    itf = itf;
+
     return 0;
 }
 
-itf_container_t *trie_container_new()
+itf_container_t *trie_container_new(void)
 {
     trie_container_t *conta = malloc(sizeof(trie_container_t));
     trie_container_init(conta);

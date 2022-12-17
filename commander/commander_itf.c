@@ -48,5 +48,7 @@ itf_commander_t *commander_itf_new(itf_writer_t *outobj)
 int commander_itf_deinit(itf_commander_t *p)
 {
     // TODO
+    // in case of warning
+    p = p;
     return 0;
 }

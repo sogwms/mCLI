@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "trie.h"
+#pragma warning(disable : 5045)
 
 static trie_node_t *trie_find_sib_by_data(trie_node_t *p, char d)
 {
@@ -64,7 +65,7 @@ trie_node_t *trie_find_command_node(trie_node_t *p, const char *s)
     node = trie_find_mathced_node(p, s, &cnt);
     if (node == NULL)
         return NULL;
-    if (cnt != strlen(s))
+    if (cnt != (int)strlen(s))
         return NULL;
 
     return node;
@@ -77,7 +78,7 @@ int trie_add_cmd(trie_node_t *t, const char *name, void *ud)
         return 0;
     }
     trie_node_t *p = t;
-    for (int i = 0; i < strlen(name); i++)
+    for (int i = 0; i < (int)strlen(name); i++)
     {
         trie_node_t *n = trie_find_child_by_data(p, name[i]);
         if (n == NULL)
@@ -199,6 +200,7 @@ void trie_init(trie_t *t)
 void trie_deinit(trie_t *t)
 {
     // TODO
+    t = t;
 }
 
 void trie_node_init(trie_node_t *n)

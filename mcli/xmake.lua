@@ -4,7 +4,7 @@ includes("../commands")
 
 target("mcli")
     set_kind("static")
-    add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
+    set_warnings("everything", "error")
 
     add_files("*.c")
 

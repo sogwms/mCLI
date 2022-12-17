@@ -1,6 +1,6 @@
 target("base")
     set_kind("static")
-    add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
+    set_warnings("everything", "error")
 
     add_files("*.c")
     add_includedirs("./",  {public = true})

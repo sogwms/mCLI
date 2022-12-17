@@ -4,6 +4,9 @@
 #include "commander.h"
 #include "container/trie_container.h"
 #include "util.h"
+#include "uio.h"
+
+#pragma warning(disable : 5045)
 
 int commander_init(commander_t *p, itf_writer_t *stdout)
 {

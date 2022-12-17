@@ -2,9 +2,8 @@ includes("../base")
 
 target("commander")
     set_kind("static")
+    set_warnings("everything", "error")
 
-    add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
-    
     add_files("*.c")
     add_files("container/*.c")
 

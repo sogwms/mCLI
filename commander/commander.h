@@ -4,12 +4,13 @@
 #include "cdef/def_commander.h"
 #include "cdef/def_command.h"
 #include "def/def_container.h"
+#pragma warning(disable : 4820)
 
 typedef struct
 {
     itf_writer_t *outobj;
-    int counter_cmd;
     itf_container_t *conta;
+    int counter_cmd;
 } commander_t;
 
 int commander_init(commander_t *p, itf_writer_t *outobj);

@@ -8,7 +8,7 @@ static int write_string_by_writer(void *p, const char *buf)
     if (writer == NULL)
         return -1;
 
-    int length = strlen(buf);
+    int length = (int)strlen(buf);
     return ITF_CALL(writer, write, (const uint8_t *)buf, length);
 }
 

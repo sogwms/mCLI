@@ -5,6 +5,7 @@
 #include <def/def_container.h>
 
 #define CMDNAME_MAX_LENGTH 16
+#pragma warning(disable : 4820)
 typedef struct trie_node
 {
     struct trie_node *parent;

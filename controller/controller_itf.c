@@ -14,6 +14,8 @@ typedef struct
     itf_commander_t *cmder;
 } controller_itf_t;
 
+#pragma warning(disable : 5045)
+
 // TODO use dynamic array
 static int input(void *p, int length, char *buf)
 {
