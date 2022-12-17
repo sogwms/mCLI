@@ -1,15 +1,21 @@
 add_rules("mode.debug", "mode.release")
 
-add_cflags("-pedantic", "-Wall", "-Werror", "-pedantic-errors", {force=true})
+-- add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
 
-includes("commander")
-includes("controller")
-includes("commands")
+includes("mcli")
 
 target("main")
     set_kind("binary")
     add_files("main.c")
-    add_deps("commander", "controller", "commands")
+    add_deps("mcli")
+
+
+-- target("mcli")
+--     set_kind("static")
+--     add_deps("commander", "controller", "commands")
+--     add_headerfiles("public/(mcli/*.h)")
+--     set_policy("build.merge_archive", true)
+
 
 
 --

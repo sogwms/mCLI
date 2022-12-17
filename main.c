@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <time.h>
-
-#include "commander_itf.h"
-#include "controller_itf.h"
-#include "builtin_command.h"
-
-#include "cdef/def_io.h"
-#include "util.h"
+#include "mcli.h"
 
 static int write(void *p, const uint8_t *buf, int length)
 {
@@ -23,37 +17,54 @@ static itf_writer_t writer = {
     .write = write,
 };
 
-int testCommander()
+static int entry(void *p, int argc, const char **argv, itf_writer_t *outobj)
 {
-    itf_commander_t *cmder;
+    itf_string_writer_t stringWriter;
 
-    cmder = commander_itf_new(&writer);
-    register_builtin_commands(cmder);
+    itf_string_writer_init_by_writer(&stringWriter, outobj);
+    ITF_CALL(&stringWriter, write, "my echo command def: \r\n");
 
-    char *cargv[] = {"echo", "test", "you are sou curted"};
-
-    ITF_CALL(cmder, call, sizeof(cargv) / sizeof(*cargv), (const char **)cargv);
+    for (int i = 1; i < argc; i++)
+    {
+        ITF_CALL(&stringWriter, write, argv[i]);
+        if (i < argc)
+        {
+            ITF_CALL(&stringWriter, write, " ");
+        }
+    }
 
     return 0;
 }
 
-int test()
+int testMCLI()
 {
-    itf_commander_t *cmder = commander_itf_new(&writer);
-    register_builtin_commands(cmder);
-    itf_controller_t *ctrler = controller_itf_new(cmder, &writer);
+    void *ins = mcli_new(&writer);
 
-    char inputText[] = "echo hello world hahah";
-
-    ITF_CALL(ctrler, input, sizeof(inputText), inputText);
-
-    return 0;
+    {
+        char inputText[] = "echo hello world hahah";
+        mcli_input(ins, strlen(inputText), inputText);
+    }
+    // {
+    //     char inputText[] = "myecho";
+    //     mcli_input(ins, sizeof(inputText), inputText);
+    // }
+    // {
+    //     char inputText[] = "myecho2";
+    //     mcli_input(ins, sizeof(inputText), inputText);
+    // }
+    {
+        itf_command_t myechocmd;
+        myechocmd.entry = entry;
+        mcli_register_cmd(ins, "myecho", &myechocmd);
+        char inputText[] = "myecho hello world";
+        inputText[sizeof(inputText) - 1] = 'f';
+        mcli_input(ins, sizeof(inputText), inputText);
+    }
 }
 
 int main(int argc, char **argv)
 {
-    // testCommander();
-    test();
+    testMCLI();
 
     return 0;
 }
