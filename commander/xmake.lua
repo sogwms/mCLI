@@ -3,7 +3,7 @@ includes("../base")
 target("commander")
     set_kind("static")
 
-    add_cflags("-pedantic", "-Wall", "-Werror", "-pedantic-errors", {force=true})
+    add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
     
     add_files("*.c")
     add_files("container/*.c")
@@ -12,5 +12,7 @@ target("commander")
     add_includedirs("container",  {public = false})
 
     add_deps("base")
+    set_policy("build.merge_archive", true)
+
 
 
