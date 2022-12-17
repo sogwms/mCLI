@@ -70,6 +70,14 @@ int commander_call(commander_t *p, int argc, const char **argv)
     {
         return ITF_CALL(cmd, entry, argc, argv, p->outobj);
     }
+    else
+    {
+        itf_string_writer_t stringWriter;
+        itf_string_writer_init_by_writer(&stringWriter, p->outobj);
+        ITF_CALL(&stringWriter, write, "\r\n");
+        ITF_CALL(&stringWriter, write, argv[0]);
+        ITF_CALL(&stringWriter, write, ": command not found\r\n");
+    }
 
     return 0;
 }
