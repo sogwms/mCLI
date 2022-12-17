@@ -35,7 +35,13 @@ static int input(void *p, int length, char *buf)
 
         if ((buf[i] == ' ') || (i == length - 1))
         {
+
             end = i;
+            if ((i == length - 1) && (buf[i] > ' '))
+            {
+                end = i + 1;
+            }
+
             if ((end - start) > 0)
             {
                 int nsLen = end - start;
