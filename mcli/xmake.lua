@@ -4,6 +4,7 @@ includes("../commands")
 
 target("mcli")
     set_kind("static")
+    set_languages("c11")
     set_warnings("everything", "error")
 
     add_files("*.c")
