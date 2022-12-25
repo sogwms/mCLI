@@ -4,7 +4,10 @@
 #include "cdef/def_commander.h"
 #include "cdef/def_command.h"
 #include "def/def_container.h"
+
+#ifdef _WIN32
 #pragma warning(disable : 4820)
+#endif
 
 typedef struct
 {

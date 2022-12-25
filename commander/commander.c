@@ -6,7 +6,9 @@
 #include "util.h"
 #include "uio.h"
 
+#ifdef _WIN32
 #pragma warning(disable : 5045)
+#endif
 
 int commander_init(commander_t *p, itf_writer_t *stdout)
 {

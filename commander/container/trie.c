@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "trie.h"
+
+#ifdef _WIN32
 #pragma warning(disable : 5045)
+#endif
 
 static trie_node_t *trie_find_sib_by_data(trie_node_t *p, char d)
 {

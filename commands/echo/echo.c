@@ -4,7 +4,9 @@
 #include "uio.h"
 #include "util.h"
 
+#ifdef _WIN32
 #pragma warning(disable : 5045)
+#endif
 
 static int entry(void *p, int argc, const char **argv, itf_writer_t *outobj)
 {

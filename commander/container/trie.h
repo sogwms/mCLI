@@ -5,7 +5,10 @@
 #include <def/def_container.h>
 
 #define CMDNAME_MAX_LENGTH 16
+
+#ifdef _WIN32
 #pragma warning(disable : 4820)
+#endif
 typedef struct trie_node
 {
     struct trie_node *parent;

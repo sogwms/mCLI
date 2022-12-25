@@ -14,14 +14,14 @@ typedef struct
     itf_commander_t *cmder;
 } controller_itf_t;
 
+#ifdef _WIN32
 #pragma warning(disable : 5045)
-
+#endif
 // TODO use dynamic array
-static int input(void *p, int length, char *buf)
+static int input(void *p, int length, const char *buf)
 {
     if (p == NULL)
         return -1;
-
     controller_itf_t *self = (controller_itf_t *)p;
     char *params[MAX_NUM_PARAMETERS] = {0};
     int cnt = 0;
