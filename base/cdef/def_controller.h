@@ -8,7 +8,7 @@
 typedef struct
 {
     void *p;
-    int (*input)(void *p, int length, char *buf);
+    int (*input)(void *p, int length, const char *buf);
     int (*set_outobj)(void *p, itf_writer_t *writer);
 } itf_controller_t;
 

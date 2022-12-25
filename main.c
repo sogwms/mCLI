@@ -42,22 +42,22 @@ int testMCLI()
 
     {
         char inputText[] = "echo hello world hahah";
-        mcli_input(ins, strlen(inputText), inputText);
+        mcli_input(ins, sizeof(inputText), inputText);
     }
-    // {
-    //     char inputText[] = "myecho";
-    //     mcli_input(ins, sizeof(inputText), inputText);
-    // }
-    // {
-    //     char inputText[] = "myecho2";
-    //     mcli_input(ins, sizeof(inputText), inputText);
-    // }
+    {
+        char inputText[] = "myecho";
+        mcli_input(ins, sizeof(inputText), inputText);
+    }
+    {
+        char inputText[] = "myecho2";
+        mcli_input(ins, sizeof(inputText), inputText);
+    }
     {
         itf_command_t myechocmd;
         myechocmd.entry = entry;
         mcli_register_cmd(ins, "myecho", &myechocmd);
         char inputText[] = "myecho hello world";
-        inputText[sizeof(inputText) - 1] = 'f';
+        // inputText[sizeof(inputText) - 1] = 'f';
         mcli_input(ins, sizeof(inputText), inputText);
     }
 }
@@ -65,6 +65,5 @@ int testMCLI()
 int main(int argc, char **argv)
 {
     testMCLI();
-
     return 0;
 }
