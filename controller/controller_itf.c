@@ -18,7 +18,7 @@ typedef struct
 #pragma warning(disable : 5045)
 #endif
 // TODO use dynamic array
-static int input(void *p, int length, const char *buf)
+static int input(void *p, const char *buf, int length)
 {
     if (p == NULL)
         return -1;

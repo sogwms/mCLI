@@ -30,13 +30,13 @@ void *mcli_new(itf_writer_t *writer)
     return mcli;
 }
 
-int mcli_input(void *p, int length, char *buf)
+int mcli_input(void *p, char *buf, int len)
 {
     if (p == NULL)
         return -1;
     mcli_t *mcli = (mcli_t *)p;
 
-    return ITF_CALL(mcli->editor, input, buf, length);
+    return ITF_CALL(mcli->editor, input, buf, len);
 }
 
 int mcli_register_cmd(void *p, const char *cmd_name, itf_command_t *cmd)

@@ -5,7 +5,7 @@
 
 typedef int (*write_t)(void *p, const uint8_t *buf, int length);
 
-typedef int (*write_string_t)(void *p, const char *buf);
+typedef int (*write_string_t)(void *p, const char *s);
 
 typedef struct
 {

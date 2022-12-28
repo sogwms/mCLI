@@ -7,7 +7,7 @@
 typedef struct
 {
     void *p;
-    int (*input)(void *p, char *buf, int len);
+    int (*input)(void *p, const char *buf, int len);
     int (*set_outobj)(void *p, itf_writer_t *writer);
 } itf_editor_t;
 

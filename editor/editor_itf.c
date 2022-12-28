@@ -20,7 +20,7 @@ typedef struct
     editor_t editor;
 } editor_itf_t;
 #include <stdio.h>
-static int input(void *p, char *buf, int len)
+static int input(void *p, const char *buf, int len)
 {
     if (p == NULL)
         return -1;
@@ -33,7 +33,7 @@ static int input(void *p, char *buf, int len)
         if (es == EDITOR_STATUS_NEW)
         {
             const char *_buf = editor_get_sentence(&self->editor);
-            ITF_CALL(self->ctrler, input, (int)(strlen(_buf)), _buf);
+            ITF_CALL(self->ctrler, input, _buf, (int)(strlen(_buf)));
         }
     }
 

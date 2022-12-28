@@ -42,15 +42,15 @@ int testMCLI()
 
     {
         char inputText[] = "echo hello world hahah";
-        mcli_input(ins, sizeof(inputText), inputText);
+        mcli_input(ins, inputText, sizeof(inputText));
     }
     {
         char inputText[] = "myecho";
-        mcli_input(ins, sizeof(inputText), inputText);
+        mcli_input(ins, inputText, sizeof(inputText));
     }
     {
         char inputText[] = "myecho2";
-        mcli_input(ins, sizeof(inputText), inputText);
+        mcli_input(ins, inputText, sizeof(inputText));
     }
     {
         itf_command_t myechocmd;
@@ -58,7 +58,7 @@ int testMCLI()
         mcli_register_cmd(ins, "myecho", &myechocmd);
         char inputText[] = "myecho hello world";
         // inputText[sizeof(inputText) - 1] = 'f';
-        mcli_input(ins, sizeof(inputText), inputText);
+        mcli_input(ins, inputText, sizeof(inputText));
     }
 }
 
