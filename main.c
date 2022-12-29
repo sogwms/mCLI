@@ -17,19 +17,20 @@ static itf_writer_t writer = {
     .write = write,
 };
 
-static int entry(void *p, int argc, const char **argv, itf_writer_t *outobj)
+static int myechocmd_entry(cctx_t *ctx, int argc, const char **argv)
 {
-    itf_string_writer_t stringWriter;
+    itf_writer_t *w = ITF_CALL(ctx, get_writer);
+    itf_string_writer_t _sw, *sw = &_sw;
+    itf_string_writer_init_by_writer(sw, w);
 
-    itf_string_writer_init_by_writer(&stringWriter, outobj);
-    ITF_CALL(&stringWriter, write, "my echo command def: \r\n");
+    ITF_CALL(sw, write, "my echo command def: \r\n");
 
     for (int i = 1; i < argc; i++)
     {
-        ITF_CALL(&stringWriter, write, argv[i]);
+        ITF_CALL(sw, write, argv[i]);
         if (i < argc)
         {
-            ITF_CALL(&stringWriter, write, " ");
+            ITF_CALL(sw, write, " ");
         }
     }
 
@@ -53,9 +54,7 @@ int testMCLI()
         mcli_input(ins, inputText, sizeof(inputText));
     }
     {
-        itf_command_t myechocmd;
-        myechocmd.entry = entry;
-        mcli_register_cmd(ins, "myecho", &myechocmd);
+        mcli_register_cmd(ins, "myecho", myechocmd_entry, NULL);
         char inputText[] = "myecho hello world";
         // inputText[sizeof(inputText) - 1] = 'f';
         mcli_input(ins, inputText, sizeof(inputText));

@@ -18,8 +18,8 @@ typedef struct
 
 int commander_init(commander_t *p, itf_writer_t *outobj);
 int commander_deinit(commander_t *p);
-int commander_set_stdout(commander_t *p, itf_writer_t *outobj);
-int commander_register(commander_t *p, const char *cmd_name, itf_command_t *cmd);
+int commander_set_outobj(commander_t *p, itf_writer_t *outobj);
+int commander_register(commander_t *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud);
 int commander_call(commander_t *p, int argc, const char **argv);
 
 #endif

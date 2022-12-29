@@ -5,11 +5,10 @@
 
 typedef struct echo
 {
-    itf_command_t cmd;
+    command_entry_t entry;
     char *name;
-}echo_cmd_t;
+} echo_cmd_t;
 
 void echo_cmd_init(echo_cmd_t *p);
-
 
 #endif

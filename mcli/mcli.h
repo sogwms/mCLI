@@ -7,6 +7,6 @@
 
 void *mcli_new(itf_writer_t *writer);
 int mcli_input(void *p, char *buf, int length);
-int mcli_register_cmd(void *p, const char *cmd_name, itf_command_t *cmd);
+int mcli_register_cmd(void *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud);
 
 #endif

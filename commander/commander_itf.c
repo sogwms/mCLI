@@ -8,12 +8,12 @@ typedef struct
     commander_t commander;
 } commander_itf_t;
 
-static int register_cmd(void *p, const char *cmd_name, itf_command_t *cmd)
+static int register_cmd(void *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud)
 {
     commander_itf_t *self = (commander_itf_t *)p;
     if (self == NULL)
         return -1;
-    return commander_register(&self->commander, cmd_name, cmd);
+    return commander_register(&self->commander, cmd_name, cmd, cmd_ud);
 }
 static int call(void *p, int argc, const char **argv)
 {
@@ -28,7 +28,7 @@ static int set_outobj(void *p, itf_writer_t *writer)
     commander_itf_t *self = (commander_itf_t *)p;
     if (self == NULL)
         return -1;
-    return commander_set_stdout(&self->commander, writer);
+    return commander_set_outobj(&self->commander, writer);
 }
 
 itf_commander_t *commander_itf_new(itf_writer_t *outobj)

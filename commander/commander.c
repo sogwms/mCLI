@@ -5,23 +5,31 @@
 #include "container/trie_container.h"
 #include "util.h"
 #include "uio.h"
+#include "context.h"
 
 #ifdef _WIN32
 #pragma warning(disable : 5045)
 #endif
 
-int commander_init(commander_t *p, itf_writer_t *stdout)
+// internal representation (storage model) of a command
+typedef struct
+{
+    void *ud;
+    command_entry_t entry;
+} commander_command_t;
+
+int commander_init(commander_t *p, itf_writer_t *outobj)
 {
     if (p == NULL)
         return 0;
-    if (stdout == NULL)
+    if (outobj == NULL)
         return -1;
 
     memset(p, 0, sizeof(commander_t));
 
     p->conta = trie_container_new();
 
-    commander_set_stdout(p, stdout);
+    commander_set_outobj(p, outobj);
 
     return 0;
 }
@@ -37,13 +45,13 @@ int commander_deinit(commander_t *p)
     return 0;
 }
 
-int commander_set_stdout(commander_t *p, itf_writer_t *stdout)
+int commander_set_outobj(commander_t *p, itf_writer_t *outobj)
 {
-    p->outobj = stdout;
+    p->outobj = outobj;
     return 0;
 }
 
-int commander_register(commander_t *p, const char *cmd_name, itf_command_t *cmd)
+int commander_register(commander_t *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud)
 {
     int ret = 0;
 
@@ -54,7 +62,12 @@ int commander_register(commander_t *p, const char *cmd_name, itf_command_t *cmd)
     if (cmd_name == NULL)
         return 0;
 
-    ret = ITF_CALL(p->conta, add_command, cmd_name, cmd);
+    commander_command_t *ns = (commander_command_t *)malloc(sizeof(commander_command_t));
+    memset(ns, 0, sizeof(commander_command_t));
+    ns->ud = cmd_ud;
+    ns->entry = cmd;
+
+    ret = ITF_CALL(p->conta, add_command, cmd_name, ns);
     if (ret != 0)
         return ret;
 
@@ -70,10 +83,18 @@ int commander_call(commander_t *p, int argc, const char **argv)
     if (argc < 1)
         return -1;
 
-    itf_command_t *cmd = p->conta->find_command(p->conta->p, argv[0]);
+    commander_command_t *cmd = p->conta->find_command(p->conta->p, argv[0]);
     if (cmd != NULL)
     {
-        return ITF_CALL(cmd, entry, argc, argv, p->outobj);
+        if (cmd->entry != NULL)
+        {
+            cctx_t cctx;
+            ccontext_data_t _ctx;
+            _ctx.cmd_ud = cmd->ud;
+            _ctx.writer = p->outobj;
+            ccontext_init(&cctx, &_ctx);
+            return cmd->entry(&cctx, argc, argv);
+        }
     }
     else
     {

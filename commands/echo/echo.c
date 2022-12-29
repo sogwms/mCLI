@@ -8,19 +8,19 @@
 #pragma warning(disable : 5045)
 #endif
 
-static int entry(void *p, int argc, const char **argv, itf_writer_t *outobj)
+static int entry(cctx_t *ctx, int argc, const char **argv)
 {
-    p = p;
-    itf_string_writer_t stringWriter;
-
-    itf_string_writer_init_by_writer(&stringWriter, outobj);
+    itf_writer_t *w = ITF_CALL(ctx, get_writer);
+    itf_string_writer_t _sw, *sw = &_sw;
+    itf_string_writer_init_by_writer(sw, w);
 
     for (int i = 1; i < argc; i++)
     {
-        ITF_CALL(&stringWriter, write, argv[i]);
+        ITF_CALL(sw, write, argv[i]);
+
         if (i < argc)
         {
-            ITF_CALL(&stringWriter, write, " ");
+            ITF_CALL(sw, write, " ");
         }
     }
 
@@ -30,6 +30,5 @@ static int entry(void *p, int argc, const char **argv, itf_writer_t *outobj)
 void echo_cmd_init(echo_cmd_t *p)
 {
     p->name = "echo";
-    p->cmd.entry = entry;
-    p->cmd.p = p;
+    p->entry = entry;
 }

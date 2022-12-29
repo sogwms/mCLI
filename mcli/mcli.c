@@ -39,11 +39,11 @@ int mcli_input(void *p, char *buf, int len)
     return ITF_CALL(mcli->editor, input, buf, len);
 }
 
-int mcli_register_cmd(void *p, const char *cmd_name, itf_command_t *cmd)
+int mcli_register_cmd(void *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud)
 {
     if (p == NULL)
         return -1;
     mcli_t *mcli = (mcli_t *)p;
 
-    return ITF_CALL(mcli->cmder, register_cmd, cmd_name, cmd);
+    return ITF_CALL(mcli->cmder, register_cmd, cmd_name, cmd, cmd_ud);
 }
