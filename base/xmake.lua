@@ -1,5 +1,5 @@
 target("base")
-    set_kind("static")
+    set_kind("object")
     set_warnings("everything", "error")
 
     add_files("src/*.c")

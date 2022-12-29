@@ -1,7 +1,7 @@
 includes("../base")
 
 target("commands")
-    set_kind("static")
+    set_kind("object")
     set_languages("c11")
     set_warnings("everything", "error")
     
