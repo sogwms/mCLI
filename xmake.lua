@@ -3,21 +3,13 @@ add_rules("mode.debug", "mode.release")
 -- add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
 
 includes("mcli")
+includes("test/*/")
 
-target("main")
-    set_kind("binary")
-    add_files("main.c")
-    add_deps("mcli")
+
+target("tests")
+    set_kind("phony")
+    add_deps("test")
     
-
--- target("mcli")
---     set_kind("static")
---     add_deps("commander", "controller", "commands")
---     add_headerfiles("public/(mcli/*.h)")
---     set_policy("build.merge_archive", true)
-
-
-
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
