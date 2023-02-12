@@ -6,9 +6,7 @@
 
 /**
  * @ctx: command context handle
- * @argc: indicate the number of arguments
- * @argv: arguments. the first argument is the command name
  */
-typedef int (*command_entry_t)(cctx_t *ctx, int argc, const char **argv);
+typedef int (*command_entry_t)(cctx_t *ctx, const char *arg);
 
 #endif

@@ -17,22 +17,14 @@ static itf_writer_t writer = {
     .write = write,
 };
 
-static int myechocmd_entry(cctx_t *ctx, int argc, const char **argv)
+static int myechocmd_entry(cctx_t *ctx, const char *arg)
 {
     itf_writer_t *w = ITF_CALL(ctx, get_writer);
     itf_string_writer_t _sw, *sw = &_sw;
     itf_string_writer_init_by_writer(sw, w);
 
     ITF_CALL(sw, write, "my echo command def: \r\n");
-
-    for (int i = 1; i < argc; i++)
-    {
-        ITF_CALL(sw, write, argv[i]);
-        if (i < argc)
-        {
-            ITF_CALL(sw, write, " ");
-        }
-    }
+    ITF_CALL(sw, write, arg);
 
     return 0;
 }

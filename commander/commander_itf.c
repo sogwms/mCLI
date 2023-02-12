@@ -15,13 +15,13 @@ static int register_cmd(void *p, const char *cmd_name, command_entry_t cmd, void
         return -1;
     return commander_register(&self->commander, cmd_name, cmd, cmd_ud);
 }
-static int call(void *p, int argc, const char **argv)
+static int call(void *p, const char *arg)
 {
     commander_itf_t *self = (commander_itf_t *)p;
     if (self == NULL)
         return -1;
 
-    return commander_call(&self->commander, argc, argv);
+    return commander_call(&self->commander, arg);
 }
 static int set_outobj(void *p, itf_writer_t *writer)
 {

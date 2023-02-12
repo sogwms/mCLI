@@ -9,7 +9,7 @@ typedef struct
 {
     void *p;
     int (*register_cmd)(void *p, const char *cmd_name, command_entry_t cmd, void *cmd_ud);
-    int (*call)(void *p, int argc, const char **argv);
+    int (*call)(void *p, const char *arg);
     int (*set_outobj)(void *p, itf_writer_t *writer);
 } itf_commander_t;
 
