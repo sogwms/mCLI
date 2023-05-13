@@ -8,22 +8,19 @@ set_languages("c11")
 -- compiler settings: strongest
 set_warnings("everything", "error")
 
-includes("../commander")
-includes("../controller")
-includes("../editor")
-includes("../commands")
+includes("**/xmake.lua")
 
 
 target("mcli")
-    set_kind("static")
+    set_kind("object")
 
     add_files("*.c")
 
     add_includedirs("./",  {public = true})
 
     add_headerfiles("*.h")
-    add_headerfiles("../base/*.h")
-    add_headerfiles("../base/(cdef/*.h)")
+    -- add_headerfiles("../base/*.h")
+    -- add_headerfiles("../base/(cdef/*.h)")
 
-    add_deps("commander", "controller", "commands", "editor", {private = true})
+    -- add_deps("commander", "controller", "commands", "editor", {private = true})
     set_policy("build.merge_archive", true)
