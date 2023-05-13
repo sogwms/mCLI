@@ -23,48 +23,52 @@ static int input(void *p, const char *buf, int length)
     if (p == NULL)
         return -1;
     controller_itf_t *self = (controller_itf_t *)p;
-    char *params[MAX_NUM_PARAMETERS] = {0};
-    int cnt = 0;
+    // char *params[MAX_NUM_PARAMETERS] = {0};
+    // int cnt = 0;
 
-    int start = 0;
-    int end = 0;
-    for (int i = 0; i < length; i++)
-    {
-        if (cnt >= MAX_NUM_PARAMETERS)
-        {
-            break;
-        }
+    // int start = 0;
+    // int end = 0;
+    // for (int i = 0; i < length; i++)
+    // {
+    //     if (cnt >= MAX_NUM_PARAMETERS)
+    //     {
+    //         break;
+    //     }
 
-        if ((buf[i] == ' ') || (i == length - 1))
-        {
+    //     if ((buf[i] == ' ') || (i == length - 1))
+    //     {
 
-            end = i;
-            if ((i == length - 1) && (buf[i] > ' '))
-            {
-                end = i + 1;
-            }
+    //         end = i;
+    //         if ((i == length - 1) && (buf[i] > ' '))
+    //         {
+    //             end = i + 1;
+    //         }
 
-            if ((end - start) > 0)
-            {
-                int nsLen = end - start;
-                char *ns = malloc(nsLen + 1);
-                memcpy(ns, &buf[start], end - start);
+    //         if ((end - start) > 0)
+    //         {
+    //             int nsLen = end - start;
+    //             char *ns = malloc(nsLen + 1);
+    //             memcpy(ns, &buf[start], end - start);
 
-                ns[nsLen] = '\0';
-                params[cnt++] = ns;
-            }
+    //             ns[nsLen] = '\0';
+    //             params[cnt++] = ns;
+    //         }
 
-            start = i + 1;
-        }
-    }
+    //         start = i + 1;
+    //     }
+    // }
 
-    ITF_CALL(self->cmder, call, cnt, (const char **)params);
+    char *arg = malloc(length + 1);
+    memcpy(arg, buf, length);
+    arg[length] = '\0';
+
+    ITF_CALL(self->cmder, call, arg);
 
     // free allocated memory
-    for (int i = 0; i < cnt; i++)
-    {
-        free(params[i]);
-    }
+    // for (int i = 0; i < cnt; i++)
+    // {
+    //     free(params[i]);
+    // }
 
     return 0;
 }

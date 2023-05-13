@@ -76,14 +76,30 @@ int commander_register(commander_t *p, const char *cmd_name, command_entry_t cmd
     return 0;
 }
 
-int commander_call(commander_t *p, int argc, const char **argv)
+int commander_call(commander_t *p, const char *arg)
 {
     if (p == NULL)
         return 0;
-    if (argc < 1)
-        return -1;
+    if (arg == NULL)
+        return 0;
 
-    commander_command_t *cmd = p->conta->find_command(p->conta->p, argv[0]);
+    // TODO: abstract common functionality
+    char *cmd_name = (char *)arg;
+    char _last_letter = ' ';
+    int _last_letter_idx = 0;
+    for (int i = 0; i < (int)strlen(arg); i++)
+    {
+        if ((arg[i] == ' ') || (arg[i] == '\0'))
+        {
+            _last_letter = arg[i];
+            _last_letter_idx = i;
+            break;
+        }
+    }
+    cmd_name[_last_letter_idx] = '\0';
+    commander_command_t *cmd = p->conta->find_command(p->conta->p, cmd_name);
+    cmd_name[_last_letter_idx] = _last_letter;
+
     if (cmd != NULL)
     {
         if (cmd->entry != NULL)
@@ -93,7 +109,7 @@ int commander_call(commander_t *p, int argc, const char **argv)
             _ctx.cmd_ud = cmd->ud;
             _ctx.writer = p->outobj;
             ccontext_init(&cctx, &_ctx);
-            return cmd->entry(&cctx, argc, argv);
+            return cmd->entry(&cctx, arg);
         }
     }
     else
@@ -101,7 +117,10 @@ int commander_call(commander_t *p, int argc, const char **argv)
         itf_string_writer_t stringWriter;
         itf_string_writer_init_by_writer(&stringWriter, p->outobj);
         ITF_CALL(&stringWriter, write, "\r\n");
-        ITF_CALL(&stringWriter, write, argv[0]);
+        cmd_name[_last_letter_idx] = '\0';
+        ITF_CALL(&stringWriter, write, cmd_name);
+        cmd_name[_last_letter_idx] = _last_letter;
+
         ITF_CALL(&stringWriter, write, ": command not found\r\n");
     }
 

@@ -2,7 +2,7 @@ add_rules("mode.debug", "mode.release")
 
 -- add_cflags("-pedantic", "-Wall",  "-pedantic-errors", {force=true})
 
-includes("mcli")
+includes("src")
 includes("test/*/")
 
 
